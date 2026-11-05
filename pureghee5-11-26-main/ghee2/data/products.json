@@ -1,0 +1,88 @@
+[
+  {
+    "id": "amrutha-cow-ghee",
+    "name": "AMRUTHA COW GHEE",
+    "subtitle": "Pure Tradition. Rich Taste. Natural Goodness.",
+    "description": "Traditionally crafted from pure cow milk with rich aroma and authentic golden texture.",
+    "benefits": [],
+    "image": "amrutha-cow-ghee.jpg",
+    "features": [
+      "100% Pure Cow Ghee",
+      "Traditional Preparation",
+      "Rich Aroma & Taste",
+      "No Added Preservatives",
+      "Natural Goodness",
+      "Premium Quality"
+    ],
+    "sizes": [
+      {
+        "size": "250g",
+        "price": 250
+      },
+      {
+        "size": "500g",
+        "price": 480
+      },
+      {
+        "size": "1kg",
+        "price": 950
+      },
+      {
+        "size": "2kg",
+        "price": 1900
+      },
+      {
+        "size": "5kg",
+        "price": 4700
+      },
+      {
+        "size": "10kg",
+        "price": 9400
+      }
+    ],
+    "defaultSizeIndex": 1
+  },
+  {
+    "id": "amrutha-buffalo-ghee",
+    "name": "AMRUTHA BUFFALO GHEE",
+    "subtitle": "Pure & Natural — Rich Taste, Traditional Goodness",
+    "description": "Traditionally prepared from rich buffalo milk using traditional methods for authentic flavor.",
+    "benefits": [],
+    "image": "amrutha-buffalo-ghee.jpg",
+    "features": [
+      "100% Pure & Natural",
+      "Traditional Bilona Method",
+      "Rich Aroma",
+      "Great Taste",
+      "Premium Quality",
+      "Traditionally Crafted"
+    ],
+    "sizes": [
+      {
+        "size": "250g",
+        "price": 255
+      },
+      {
+        "size": "500g",
+        "price": 500
+      },
+      {
+        "size": "1kg",
+        "price": 990
+      },
+      {
+        "size": "2kg",
+        "price": 1980
+      },
+      {
+        "size": "5kg",
+        "price": 4900
+      },
+      {
+        "size": "10kg",
+        "price": 9800
+      }
+    ],
+    "defaultSizeIndex": 1
+  }
+]

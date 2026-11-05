@@ -1,0 +1,221 @@
+/* Custom Styles for AMRUTHA PURE GHEE Store */
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #faf5ee;
+    background-image: 
+        radial-gradient(at 15% 15%, rgba(251, 191, 36, 0.18) 0px, transparent 45%),
+        radial-gradient(at 85% 25%, rgba(245, 158, 11, 0.14) 0px, transparent 45%),
+        radial-gradient(at 50% 65%, rgba(254, 243, 199, 0.5) 0px, transparent 60%),
+        radial-gradient(at 80% 85%, rgba(252, 211, 77, 0.12) 0px, transparent 40%);
+    background-attachment: fixed;
+    color: #2d2416;
+}
+
+h1, h2, h3, .serif-font {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Premium Gold Textures & Gradients */
+.gold-text-gradient {
+    background: linear-gradient(135deg, #b45309 0%, #d97706 50%, #92400e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.gold-bg-gradient {
+    background: linear-gradient(135deg, #d97706 0%, #fbbf24 50%, #b45309 100%);
+}
+
+.hero-overlay {
+    background: linear-gradient(135deg, rgba(24, 16, 7, 0.94) 0%, rgba(45, 27, 10, 0.85) 50%, rgba(20, 14, 6, 0.75) 100%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f5eedf;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d97706;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b45309;
+}
+
+/* Slide-out Cart Drawer Animation classes */
+.cart-drawer-open {
+    transform: translateX(0);
+}
+
+.cart-drawer-closed {
+    transform: translateX(100%);
+}
+
+/* Pulse animation for CTA buttons */
+@keyframes gold-pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(217, 119, 6, 0);
+    }
+}
+
+.pulse-gold {
+    animation: gold-pulse 2s infinite;
+}
+
+/* Glassmorphism & Card styling matching uploaded jars */
+.glass-nav {
+    background: rgba(255, 252, 247, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(217, 119, 6, 0.12);
+}
+
+.glass-card {
+    background: #ffffff;
+    border: 1px solid rgba(217, 119, 6, 0.16);
+    box-shadow: 0 10px 25px -4px rgba(180, 83, 9, 0.06), 0 4px 10px -2px rgba(180, 83, 9, 0.04);
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+    border-color: rgba(217, 119, 6, 0.45);
+    box-shadow: 0 20px 35px -8px rgba(180, 83, 9, 0.14), 0 8px 16px -4px rgba(180, 83, 9, 0.08);
+    transform: translateY(-4px);
+}
+
+/* Accordion Styling */
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+.accordion-active .accordion-content {
+    max-height: 200px;
+    padding-bottom: 1rem;
+}
+
+.accordion-active .accordion-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-icon {
+    transition: transform 0.3s ease;
+}
+
+/* Floating Jar Banner Glow */
+.jar-glow {
+    filter: drop-shadow(0 15px 25px rgba(217, 119, 6, 0.35));
+}
+
+/* Order Tracking Stepper & Status Styles */
+.track-step-done .step-icon-box {
+    background-color: #10b981;
+    color: #ffffff;
+    border-color: #10b981;
+}
+
+.track-step-active .step-icon-box {
+    background-color: #f59e0b;
+    color: #451a03;
+    border-color: #d97706;
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.25);
+    animation: gold-pulse 2s infinite;
+}
+
+.track-step-pending .step-icon-box {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+    border-color: #e5e7eb;
+}
+
+.track-step-cancelled .step-icon-box {
+    background-color: #ef4444;
+    color: #ffffff;
+    border-color: #dc2626;
+}
+
+.step-connecting-line {
+    transition: background-color 0.4s ease;
+}
+
+/* Online UPI Payment App Styles */
+.btn-phonepe {
+    background-color: #5f259f;
+    color: #ffffff;
+}
+.btn-phonepe:hover {
+    background-color: #511d88;
+}
+
+.btn-gpay {
+    background-color: #ffffff;
+    color: #3c4043;
+    border: 1.5px solid #dadce0;
+}
+.btn-gpay:hover {
+    background-color: #f8f9fa;
+    border-color: #bdc1c6;
+}
+
+.btn-paytm {
+    background-color: #002e6e;
+    color: #ffffff;
+}
+.btn-paytm:hover {
+    background-color: #001f4c;
+}
+
+.btn-bhim {
+    background-color: #00796b;
+    color: #ffffff;
+}
+.btn-bhim:hover {
+    background-color: #006054;
+}
+
+.btn-upi-any, .btn-other-upi {
+    background: linear-gradient(135deg, #0d9488 0%, #0891b2 100%);
+    color: #ffffff;
+}
+.btn-upi-any:hover, .btn-other-upi:hover {
+    filter: brightness(0.95);
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.5);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(245, 158, 11, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+    }
+}
+
+.qr-pulse {
+    animation: pulse-ring 2.5s infinite;
+}
+

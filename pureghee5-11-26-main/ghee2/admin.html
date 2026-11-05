@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMRUTHA PURE GHEE | Admin Order Dashboard</title>
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        amber: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="amrutha-logo.jpg">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-700 antialiased min-h-screen flex flex-col">
+
+    <!-- LOGIN BOX (SHOWN BY DEFAULT) -->
+    <div id="login-container" class="fixed inset-0 z-50 bg-amber-900/10 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full border border-gray-100 shadow-2xl space-y-6">
+            <div class="text-center space-y-2">
+                <div class="w-16 h-16 rounded-2xl gold-bg-gradient flex items-center justify-center text-amber-900 shadow-md mx-auto mb-4">
+                    <i class="fa-solid fa-lock text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800 serif-font">Admin Dashboard Access</h2>
+                <p class="text-xs text-amber-600 font-bold tracking-wider uppercase">AMRUTHA PURE GHEE Store</p>
+                <p class="text-xs text-gray-400">Please authenticate with your administrator password to proceed.</p>
+            </div>
+
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Access Password</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-3.5 text-gray-400"><i class="fa-solid fa-key"></i></span>
+                        <input type="password" id="login-password" required class="w-full pl-10 pr-11 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-amber-500 text-sm" placeholder="Enter Admin Password">
+                        <button type="button" onclick="togglePasswordVisibility('login-password', 'toggle-login-pass-icon')" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-amber-600 p-1.5 cursor-pointer transition-colors focus:outline-none" title="Show/Hide password">
+                            <i id="toggle-login-pass-icon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="login-error" class="text-xs text-red-500 font-semibold text-center hidden">
+                    <i class="fa-solid fa-circle-exclamation mr-1"></i> Invalid password, please try again.
+                </div>
+
+                <button type="submit" class="w-full py-3.5 bg-amber-500 hover:bg-amber-600 text-amber-950 font-black rounded-xl shadow-md transition-all active:scale-[0.98]">
+                    Unlock Dashboard
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD CONTENT (HIDDEN BY DEFAULT) -->
+    <div id="dashboard-container" class="hidden flex-1 flex flex-col">
+        
+        <!-- DASHBOARD HEADER -->
+        <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between h-20 items-center">
+                
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <img src="amrutha-logo.jpg" alt="Amrutha Ghee Logo" class="w-10 h-10 rounded-full object-cover shadow-md border border-amber-300 shrink-0">
+                    <div>
+                        <span class="block text-lg font-bold text-amber-900 serif-font leading-none">AMRUTHA PURE GHEE</span>
+                        <span class="text-[10px] uppercase tracking-widest text-amber-600 font-extrabold">ADMIN PORTAL</span>
+                    </div>
+                </div>
+
+                <!-- Profile & Logout -->
+                <div class="flex items-center gap-4">
+                    <div class="text-right hidden sm:block">
+                        <span class="block text-sm font-bold text-gray-800">Store Manager</span>
+                        <span class="text-[10px] text-green-500 font-semibold flex items-center gap-1 justify-end">
+                            <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-ping"></span> Real-time Connected
+                        </span>
+                    </div>
+                    <button onclick="openChangePasswordModal()" class="bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-900 px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-key"></i>
+                        <span>Change Password</span>
+                    </button>
+                    <button onclick="logoutAdmin()" class="bg-gray-50 hover:bg-red-50 hover:text-red-600 border border-gray-200 hover:border-red-200 text-gray-600 px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Log Out</span>
+                    </button>
+                </div>
+
+            </div>
+        </header>
+
+        <!-- DASHBOARD BODY -->
+        <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            
+            <!-- ALERT CARD (IF STILL IN DEMO/PLACEHOLDER MODE) -->
+            <div id="setup-alert" class="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 flex gap-3 text-sm text-yellow-800">
+                <span class="text-xl text-yellow-600 mt-0.5"><i class="fa-solid fa-triangle-exclamation"></i></span>
+                <div>
+                    <h4 class="font-bold mb-1">Running in Local Offline Mode!</h4>
+                    <p class="text-xs text-yellow-700 leading-relaxed">
+                        The website is currently using mockup local storage database. To receive orders from real customers, update the configuration keys in <code class="font-mono bg-yellow-100 px-1 py-0.5 rounded text-[11px] font-bold">firebase-config.js</code> with your actual Firebase API keys.
+                    </p>
+                </div>
+            </div>
+
+            <!-- VIEW NAVIGATION TABS -->
+            <div class="flex gap-6 border-b border-gray-200 pb-2">
+                <button onclick="switchView('orders')" id="tab-orders" class="text-sm font-extrabold pb-3 border-b-2 border-amber-500 text-amber-600 focus:outline-none transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-boxes-packing text-base"></i>
+                    <span>Order Logs</span>
+                </button>
+                <button onclick="switchView('products')" id="tab-products" class="text-sm font-extrabold pb-3 border-b-2 border-transparent text-gray-400 hover:text-amber-600 focus:outline-none transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-store text-base"></i>
+                    <span>Manage Products</span>
+                </button>
+            </div>
+
+            <!-- VIEW 1: ORDERS SECTION -->
+            <div id="orders-view" class="space-y-8">
+                <!-- STORE ONLINE UPI PAYMENT SETTING CARD -->
+                <div class="bg-white p-4 sm:p-5 rounded-2xl border border-amber-200/80 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-gradient-to-r from-amber-50/40 via-white to-amber-50/20">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-11 h-11 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-xl shrink-0 shadow-2xs">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-gray-800 flex items-center gap-2">
+                                <span>Store Online UPI Payment Settings</span>
+                                <span class="text-[10px] bg-green-100 text-green-800 px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-green-600 animate-pulse"></span> Active
+                                </span>
+                            </h4>
+                            <p class="text-xs text-gray-500">
+                                PhonePe, Google Pay, Paytm, and UPI payments will be sent to this store UPI ID.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 w-full md:w-auto">
+                        <div class="relative flex-1 md:w-64">
+                            <input type="text" id="admin-upi-id" class="w-full px-3.5 py-2 text-xs font-mono font-bold rounded-xl border border-gray-300 focus:outline-none focus:border-amber-500 bg-white" placeholder="antapalliradhakrishna888@ybl" />
+                        </div>
+                        <button type="button" onclick="saveAdminUPIConfig()" class="bg-amber-500 hover:bg-amber-600 active:scale-95 text-amber-950 font-black px-4 py-2 rounded-xl text-xs transition-all cursor-pointer shrink-0 shadow-xs">
+                            <i class="fa-solid fa-floppy-disk mr-1"></i> Save UPI ID
+                        </button>
+                    </div>
+                </div>
+                <!-- STATS COUNTERS -->
+                <section class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <!-- Total Sales Cash -->
+                    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
+                        <div class="space-y-1">
+                            <span class="text-[11px] text-gray-400 font-bold uppercase tracking-wider">Total Sales</span>
+                            <h3 id="stat-sales" class="text-2xl font-extrabold text-gray-800">₹0</h3>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 text-xl flex items-center justify-center">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                        </div>
+                    </div>
+
+                    <!-- Total Orders -->
+                    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
+                        <div class="space-y-1">
+                            <span class="text-[11px] text-gray-400 font-bold uppercase tracking-wider">Total Orders</span>
+                            <h3 id="stat-orders" class="text-2xl font-extrabold text-gray-800">0</h3>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 text-xl flex items-center justify-center">
+                            <i class="fa-solid fa-boxes-packing"></i>
+                        </div>
+                    </div>
+
+                    <!-- Pending Orders -->
+                    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
+                        <div class="space-y-1">
+                            <span class="text-[11px] text-gray-400 font-bold uppercase tracking-wider">Pending</span>
+                            <h3 id="stat-pending" class="text-2xl font-extrabold text-amber-600">0</h3>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 text-xl flex items-center justify-center">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                    </div>
+
+                    <!-- Shipped / Out for Delivery Orders -->
+                    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
+                        <div class="space-y-1">
+                            <span class="text-[11px] text-gray-400 font-bold uppercase tracking-wider">Shipped / Transit</span>
+                            <h3 id="stat-shipped" class="text-2xl font-extrabold text-indigo-600">0</h3>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 text-xl flex items-center justify-center">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                    </div>
+
+                    <!-- Completed Deliveries -->
+                    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between">
+                        <div class="space-y-1">
+                            <span class="text-[11px] text-gray-400 font-bold uppercase tracking-wider">Delivered</span>
+                            <h3 id="stat-delivered" class="text-2xl font-extrabold text-green-600">0</h3>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-green-50 text-green-600 text-xl flex items-center justify-center">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ORDER LOG TABLE CONTROLLER -->
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+                    
+                    <!-- Table Toolbar / Filtering -->
+                    <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gray-50/50">
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800">Order Logs</h3>
+                            <p class="text-xs text-gray-400">Incoming online order requests and their delivery status</p>
+                        </div>
+                        
+                        <!-- Filters -->
+                        <div class="flex flex-wrap gap-2 text-xs font-bold text-gray-600">
+                            <button onclick="filterOrders('all')" id="filter-all" class="px-3.5 py-2 rounded-lg border border-amber-500 bg-amber-500 text-white shadow-sm transition-all">All Orders</button>
+                            <button onclick="filterOrders('Pending')" id="filter-Pending" class="px-3.5 py-2 rounded-lg border border-gray-200 hover:border-amber-500 bg-white transition-all">Pending</button>
+                            <button onclick="filterOrders('Confirmed')" id="filter-Confirmed" class="px-3.5 py-2 rounded-lg border border-gray-200 hover:border-amber-500 bg-white transition-all">Confirmed</button>
+                            <button onclick="filterOrders('Shipped')" id="filter-Shipped" class="px-3.5 py-2 rounded-lg border border-gray-200 hover:border-amber-500 bg-white transition-all">Shipped</button>
+                            <button onclick="filterOrders('Delivered')" id="filter-Delivered" class="px-3.5 py-2 rounded-lg border border-gray-200 hover:border-amber-500 bg-white transition-all">Delivered</button>
+                            <button onclick="filterOrders('Cancelled')" id="filter-Cancelled" class="px-3.5 py-2 rounded-lg border border-gray-200 hover:border-amber-500 bg-white transition-all">Cancelled</button>
+                        </div>
+                    </div>
+
+                    <!-- Table Content Wrapper -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50/70 border-b border-gray-100 text-[10px] text-gray-400 uppercase tracking-widest font-black">
+                                    <th class="px-6 py-4">Date / ID</th>
+                                    <th class="px-6 py-4">Customer Details</th>
+                                    <th class="px-6 py-4">Ghee Items Ordered</th>
+                                    <th class="px-6 py-4 text-right">Bill Total</th>
+                                    <th class="px-6 py-4 text-center">Status</th>
+                                    <th class="px-6 py-4 text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-tbody" class="divide-y divide-gray-100">
+                                <tr>
+                                    <td colspan="6" class="text-center py-20 text-gray-400">
+                                        <i class="fa-solid fa-spinner animate-spin text-3xl mb-3"></i>
+                                        <p class="text-sm font-semibold">Connecting to orders database...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Empty Data State -->
+                    <div id="no-orders-state" class="hidden p-20 text-center space-y-4">
+                        <div class="w-16 h-16 rounded-full bg-gray-100 text-gray-400 text-2xl flex items-center justify-center mx-auto">
+                            <i class="fa-solid fa-box-open"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-700">No orders found</h4>
+                            <p class="text-xs text-gray-400 max-w-xs mx-auto">No orders currently match the selected status filter. Wait for customer checkouts.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 2: PRODUCTS SECTION -->
+            <div id="products-view" class="hidden space-y-6">
+                
+                <!-- Section Header bar -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-800">Product Manager</h3>
+                        <p class="text-xs text-gray-400">Add, edit, or remove ghee products shown on the website storefront</p>
+                    </div>
+                    
+                    <button onclick="openAddProductModal()" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-amber-950 font-bold rounded-xl text-xs transition-all shadow-md active:scale-95 flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle"></i>
+                        <span>Add New Product</span>
+                    </button>
+                </div>
+
+                <!-- Products Table / Grid -->
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50/70 border-b border-gray-100 text-[10px] text-gray-400 uppercase tracking-widest font-black">
+                                    <th class="px-6 py-4 w-24">Product Image</th>
+                                    <th class="px-6 py-4">Ghee Name & Title</th>
+                                    <th class="px-6 py-4">Sizes & Prices</th>
+                                    <th class="px-6 py-4">Features/Tags</th>
+                                    <th class="px-6 py-4 text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="products-tbody" class="divide-y divide-gray-100">
+                                <tr>
+                                    <td colspan="5" class="text-center py-20 text-gray-400">
+                                        <i class="fa-solid fa-spinner animate-spin text-3xl mb-3"></i>
+                                        <p class="text-sm font-semibold">Loading product database...</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Empty Products State -->
+                    <div id="no-products-state" class="hidden p-20 text-center space-y-4">
+                        <div class="w-16 h-16 rounded-full bg-gray-100 text-gray-400 text-2xl flex items-center justify-center mx-auto">
+                            <i class="fa-solid fa-store-slash"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-700">No products found</h4>
+                            <p class="text-xs text-gray-400 max-w-xs mx-auto">There are no products listed on your website. Click "Add New Product" to add one.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ADD/EDIT PRODUCT MODAL -->
+    <div id="admin-product-modal" class="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl overflow-hidden shadow-2xl max-w-lg w-full border border-gray-100 flex flex-col max-h-[90vh]">
+            
+            <!-- Modal Header -->
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-amber-50/50">
+                <div>
+                    <h3 id="product-modal-title" class="text-lg font-bold text-gray-800">Add New Ghee Product</h3>
+                    <p id="product-modal-subtitle" class="text-xs text-amber-600 font-semibold tracking-wide">Enter ghee details to display on your storefront</p>
+                </div>
+                <button onclick="closeAddProductModal()" class="w-8 h-8 rounded-full border border-gray-200 hover:border-amber-500 text-gray-400 hover:text-amber-600 flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Form Scroll Container -->
+            <form id="product-form" class="p-6 space-y-4 overflow-y-auto flex-1">
+                <input type="hidden" id="edit-prod-id" value="">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Product Name *</label>
+                    <input type="text" id="prod-name" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-amber-500" placeholder="e.g. Premium A2 Vedic Cow Ghee">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Subtitle / Tagline *</label>
+                    <input type="text" id="prod-subtitle" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-amber-500" placeholder="e.g. 100% Pure Traditional Bilona Method">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Description *</label>
+                    <textarea id="prod-description" rows="3" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-amber-500" placeholder="Describe the quality, cooking method, texture, or source..."></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Product Image *</label>
+                    <div class="space-y-3">
+                        <!-- File Upload -->
+                        <div id="image-upload-area" class="relative border-2 border-dashed border-gray-200 hover:border-amber-400 rounded-xl p-6 text-center cursor-pointer transition-all bg-gray-50/50 hover:bg-amber-50/30" onclick="document.getElementById('prod-image-file').click()">
+                            <input type="file" id="prod-image-file" accept="image/*" class="hidden" onchange="handleImageFileSelect(this)">
+                            <div id="upload-placeholder" class="space-y-2">
+                                <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center mx-auto text-xl">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                </div>
+                                <p class="text-xs font-bold text-gray-600">Click to upload image from your laptop</p>
+                                <p class="text-[10px] text-gray-400">JPG, PNG, WEBP (max 5MB)</p>
+                            </div>
+                            <div id="upload-preview" class="hidden">
+                                <img id="upload-preview-img" src="" alt="Preview" class="w-24 h-24 object-cover rounded-lg mx-auto border border-gray-200 shadow-sm">
+                                <p id="upload-filename" class="text-xs text-gray-600 font-semibold mt-2 truncate max-w-[250px] mx-auto"></p>
+                                <button type="button" onclick="event.stopPropagation(); clearImageUpload()" class="text-xs text-red-500 font-bold mt-1 hover:text-red-600">Remove Image</button>
+                            </div>
+                        </div>
+                        <div class="text-center text-[10px] text-gray-400 font-bold uppercase tracking-wider">OR</div>
+                        <!-- URL / Filename Input -->
+                        <input type="text" id="prod-image" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-amber-500" placeholder="Image filename or URL (e.g. amrutha-cow-ghee.jpg or https://...)">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Features / Badges (Comma-separated) *</label>
+                    <input type="text" id="prod-features" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-amber-500" placeholder="e.g. Bilona Churned, Pure Desi Cow, Granular, Lab Tested">
+                </div>
+
+                <!-- Dynamic Sizes List -->
+                <div class="pt-2">
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Product Sizes & Prices *</label>
+                    <div id="size-rows-container" class="space-y-2">
+                        <!-- Instantiated by JS. Contains dynamic Size + Price inputs -->
+                    </div>
+                    <button type="button" onclick="addSizeRow()" class="text-xs text-amber-600 font-bold hover:text-amber-700 mt-2.5 flex items-center gap-1">
+                        <i class="fa-solid fa-plus-circle text-sm"></i>
+                        <span>Add Size Option</span>
+                    </button>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Key Health Benefits (one per line) *</label>
+                    <textarea id="prod-benefits" rows="3" required class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-amber-500" placeholder="e.g.&#10;100% pure A2 milk proteins&#10;Slow wood-fired bilona method&#10;Supports bone & heart health"></textarea>
+                </div>
+
+                <div class="pt-4 border-t border-gray-100 flex gap-3">
+                    <button type="submit" id="product-modal-submit-btn" class="flex-1 py-3 bg-amber-500 hover:bg-amber-600 text-amber-950 font-black rounded-xl transition-all shadow-md active:scale-[0.98]">
+                        Save Product
+                    </button>
+                    <button type="button" onclick="closeAddProductModal()" class="px-6 py-3 border border-gray-200 hover:border-gray-300 text-gray-600 hover:text-gray-800 font-bold rounded-xl transition-all">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- CHANGE PASSWORD MODAL -->
+    <div id="change-password-modal" class="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full border border-gray-100 shadow-2xl space-y-6">
+            <div class="flex justify-between items-center pb-4 border-b border-gray-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-key"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-800">Change Admin Password</h3>
+                        <p class="text-xs text-gray-400">Update your dashboard login password</p>
+                    </div>
+                </div>
+                <button onclick="closeChangePasswordModal()" class="w-8 h-8 rounded-full border border-gray-200 hover:border-amber-500 text-gray-400 hover:text-amber-600 flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="change-password-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Current Password *</label>
+                    <div class="relative">
+                        <input type="password" id="current-password" required class="w-full pl-4 pr-11 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-amber-500" placeholder="Enter current password">
+                        <button type="button" onclick="togglePasswordVisibility('current-password', 'toggle-current-pass-icon')" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-amber-600 p-1 cursor-pointer transition-colors focus:outline-none" title="Show/Hide password">
+                            <i id="toggle-current-pass-icon" class="fa-solid fa-eye text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">New Password *</label>
+                    <div class="relative">
+                        <input type="password" id="new-password" required class="w-full pl-4 pr-11 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-amber-500" placeholder="Enter new password (min 4 characters)">
+                        <button type="button" onclick="togglePasswordVisibility('new-password', 'toggle-new-pass-icon')" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-amber-600 p-1 cursor-pointer transition-colors focus:outline-none" title="Show/Hide password">
+                            <i id="toggle-new-pass-icon" class="fa-solid fa-eye text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Confirm New Password *</label>
+                    <div class="relative">
+                        <input type="password" id="confirm-password" required class="w-full pl-4 pr-11 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-amber-500" placeholder="Re-enter new password">
+                        <button type="button" onclick="togglePasswordVisibility('confirm-password', 'toggle-confirm-pass-icon')" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-amber-600 p-1 cursor-pointer transition-colors focus:outline-none" title="Show/Hide password">
+                            <i id="toggle-confirm-pass-icon" class="fa-solid fa-eye text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="change-pass-error" class="text-xs text-red-500 font-semibold hidden"></div>
+                <div id="change-pass-success" class="text-xs text-green-600 font-semibold hidden">Password updated successfully!</div>
+
+                <div class="pt-2 flex gap-3">
+                    <button type="submit" class="flex-1 py-3 bg-amber-500 hover:bg-amber-600 text-amber-950 font-black rounded-xl transition-all shadow-md active:scale-[0.98]">
+                        Update Password
+                    </button>
+                    <button type="button" onclick="closeChangePasswordModal()" class="px-5 py-3 border border-gray-200 text-gray-600 hover:bg-gray-50 font-bold rounded-xl text-xs transition-colors">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase App Compat SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <!-- Config file -->
+    <script src="firebase-config.js?v=3.1"></script>
+    <!-- Seed fallback data script -->
+    <script src="products.js?v=3.1"></script>
+    <!-- Admin file -->
+    <script src="admin.js?v=3.1"></script>
+</body>
+</html>
